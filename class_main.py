@@ -1,79 +1,16 @@
 import pygame
-from pygame import *
-from pygame.locals import *
-import keyboard
+import sys
+import time
 import random
 
-class App:
-    def __init__(self):
-        self._running = True
-        self._display_surf = None
-        self.size = self.weight, self.height = 1700, 900
+from pygame.locals import *
 
-    def on_init(self):
-        pygame.init()
-        self._display_surf = pygame.display.set_mode(self.size)
-        self._running = True
+WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
+WHITE = (255,255,255)
+BLACK = (0,0,0)
 
-    def on_event(self, event):
-        if event.type == pygame.QUIT:
-            self._running = False   # break while loop
-    def on_loop(self):
-        pass
-    def on_render(self):
-        pass
-    def on_cleanup(self):
-        pygame.quit()
- 
-    def on_execute(self):
-        if self.on_init() == False:
-            self._running = False
- 
-        while(self._running):
-            for event in pygame.event.get():
-                self.on_event(event)
-        self.on_cleanup()
- 
-if __name__ == "__main__" :
+if __name__ == '__main__':
+    pygame.init()
+    window = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+    pygame.display.set_caption('Super Action Hero')
     
-    theApp = App()
-    theApp.on_execute()
-
-'''
-class App:
-    def __init__(self):
-        self._running = True
-        self._display_surf = None
-        self.size = self.weight, self.height = 1700, 900
-
-    def on_init(self):
-        pygame.init()
-        self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-        self._running = True
-
-    def on_event(self, event):
-        if event.type == pygame.QUIT:
-            self._running = False
-    def on_loop(self):
-        pass
-    def on_render(self):
-        pass
-    def on_cleanup(self):
-        pygame.quit()
- 
-    def on_execute(self):
-        if self.on_init() == False:
-            self._running = False
- 
-        while( self._running ):
-            for event in pygame.event.get():
-                self.on_event(event)
-            self.on_loop()
-            self.on_render()
-        self.on_cleanup()
- 
-if __name__ == "__main__" :
-    
-    theApp = App()
-    theApp.on_execute()
-'''
