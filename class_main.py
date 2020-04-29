@@ -13,4 +13,4 @@ if __name__ == '__main__':
     pygame.init()
     window = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
     pygame.display.set_caption('Super Action Hero')
-    
+    pass
