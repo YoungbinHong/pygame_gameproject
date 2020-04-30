@@ -1,28 +1,57 @@
 import sys
 import pygame
 from pygame.locals import QUIT
-#pygame.init()
-#SURFACE = pygame.display.set_mode((1000,1000))
-class world_map:
-    def __init__(self):#init에서 배경생성 
-        pygame.init()
-        width,height = 1024, 512
-        self.gamepad = pygame.display.set_mode((width, height))
-        pygame.display.set_caption('Superhero')
-        self.clock = pygame.time.Clock()
-        WHITE = (255,255,255)
-        self.gamepad.fill(WHITE)
-        background = pygame.image.load('image/background.png')
-        self.gamepad.blit(background,(0,0))
-        pygame.display.update()
-        self.clock.tick(60)
-    
-    #def 캐릭터관리(좌표, 스킬, 좌 우 점프 공격등등)
-    
-    #def 카메라시점 => 할수있으면
-    
-    #def 
-    
+from os import path
+#import block
+width = 600
+height = 800
+fps = 60
+
+WHITE = (255,255,255)
+BLACK = (0,0,0)
+RED = (255,0,0)
+GREEN = (0,255,0)
+BLUE = (0,0,255)
+TILESIZE = 50
+
+#class Map(self):
+pygame.init()
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Superhero") #game title
+sprit_group = pygame.sprite.Group()
+
+class block(pygame.sprite.Sprite):
+    def __init__(self, col, row):
+        pygame.sprite.Sprite.__init__(self)
+        self.grid_x = row * TILESIZE
+        self.grid_y = col * TILESIZE
+        self.image = pygame.image.load('image/block.png').convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.x = self.grid_x
+        self.rect.y = self.grid_y 
+
 while True:
-    map = world_map()
+    screen.fill(GREEN) # clear screen
+        # screen.fill(WHITE)
+        # draw_grid()
+
+    map_data = []
+        #read map_file
+    map = "image/map1.txt"
+    with open(map, 'r') as file:
+        for line in file:
+            map_data.append(line.strip('\n').split(' '))
+
+    for col in range(0, len(map_data)):
+        for row in range(0, len(map_data[col])):
+            print('map_data[col][row]', map_data[col][row])
+            if map_data[col][row] == "b":
+                tut_big = block(col, row)
+                sprit_group.add(tut_big)
+    sprit_group.draw(screen)
+    pygame.display.flip()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
 
