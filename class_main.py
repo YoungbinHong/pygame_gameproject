@@ -1,10 +1,14 @@
 import pygame, sys, keyboard
 from pygame.locals import *
 
+############### system constants ###############
+
 WINDOW_WIDTH, WINDOW_HEIGHT = 600,800
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 POWER_SWITCH = False
+
+############### function for program contribute ###############
 
 def program_icon():
     icon1 = pygame.image.load('./image/icon.png')
@@ -12,6 +16,8 @@ def program_icon():
 
 def set_caption():
     pygame.display.set_caption('Super Action HUFS')
+
+############### function for display components ###############
 
 def home_display():
     image1 = pygame.image.load('./image/display_home.jpg')
@@ -29,12 +35,23 @@ def game_start_button():
     start_button_rect = start_button.get_rect(x=150,y=550)
     screen.blit(start_button,start_button_rect)
 
+############### function for keyboard interrupt ###############
+
 def key_press():
     for event in pygame.event.get():
             if event.type == KEYDOWN:
-                if event.key == K_a: print('a key pressed'); return 'a'
+                if event.key == K_UP: print('UP key pressed'); return 'UP'
+                if event.key == K_DOWN: print('DOWN key pressed'); return 'DOWN'
+                if event.key == K_LEFT: print('LEFT key pressed'); return 'LEFT'
+                if event.key == K_RIGHT: print('RIGHT key pressed'); return 'RIGHT'
                 if event.key == K_RETURN: print('enter key pressed'); return 'enter'
-    
+                if event.key == K_1: print('NUM1 key pressed'); return 'NUM1'
+                if event.key == K_2: print('NUM2 key pressed'); return 'NUM2'
+                if event.key == K_3: print('NUM3 key pressed'); return 'NUM3'
+                if event.key == K_4: print('NUM4 key pressed'); return 'NUM4'
+
+############### function main ###############
+
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),HWSURFACE)    # variable window is instance of surface, hardware accelerated
