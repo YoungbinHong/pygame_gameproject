@@ -19,58 +19,100 @@ def set_caption():
 
 ############### function for display components ###############
 
-def home_display():
-    image1 = pygame.image.load('./image/display_home.jpg')
-    image1 = pygame.transform.scale(image1,(WINDOW_WIDTH,WINDOW_HEIGHT))
-    screen.blit(image1,(0,0))
-
-def select_map_display():
-    image2 = pygame.image.load('./image/display_menu.jpg')
-    image2 = pygame.transform.scale(image2,(WINDOW_WIDTH,WINDOW_HEIGHT))
-    screen.blit(image2,(0,0))
-
-def game_start_button():
-    font1 = pygame.font.Font('./font/neodgm.ttf',60)
-    start_button = font1.render("Press Enter!",True,BLACK)
-    start_button_rect = start_button.get_rect(x=150,y=550)
-    screen.blit(start_button,start_button_rect)
+def disp(location):
+    image = pygame.image.load(location)
+    image = pygame.transform.scale(image,(WINDOW_WIDTH,WINDOW_HEIGHT))
+    screen.blit(image,(0,0))
 
 ############### function for keyboard interrupt ###############
 
 def key_press():
     for event in pygame.event.get():
             if event.type == KEYDOWN:
-                if event.key == K_UP: print('UP key pressed'); return 'UP'
-                if event.key == K_DOWN: print('DOWN key pressed'); return 'DOWN'
-                if event.key == K_LEFT: print('LEFT key pressed'); return 'LEFT'
-                if event.key == K_RIGHT: print('RIGHT key pressed'); return 'RIGHT'
-                if event.key == K_RETURN: print('enter key pressed'); return 'enter'
-                if event.key == K_1: print('NUM1 key pressed'); return 'NUM1'
-                if event.key == K_2: print('NUM2 key pressed'); return 'NUM2'
-                if event.key == K_3: print('NUM3 key pressed'); return 'NUM3'
-                if event.key == K_4: print('NUM4 key pressed'); return 'NUM4'
+                if event.key == K_UP: return 'UP'
+                if event.key == K_DOWN: return 'DOWN'
+                if event.key == K_LEFT: return 'LEFT'
+                if event.key == K_RIGHT: return 'RIGHT'
+                if event.key == K_1: return 'NUM1'
+                if event.key == K_2: return 'NUM2'
+                if event.key == K_3: return 'NUM3'
+                if event.key == K_4: return 'NUM4'
+                if event.key == K_RETURN: return 'ENTER'
+                if event.key == K_ESCAPE: return 'ESC'
+                if event.key == K_DELETE: return 'DELETE'
 
 ############### function main ###############
 
 if __name__ == '__main__':
     pygame.init()
-    screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),HWSURFACE)    # variable window is instance of surface, hardware accelerated
+    screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),HWSURFACE)    # variable screen is instance of surface, hardware accelerated
     program_icon() # set program icon
     set_caption() # set name of program
     POWER_SWITCH = True     # turn on power
-    current_display = 'home'    # start in home display
+
+    current_display = './image/home.png'    # start in home display
+
+    log = open('./log/play_log.txt','a')    # generate log file to review error
 
     while POWER_SWITCH:
-
         pygame.display.flip()   # display initialization
 
-        if current_display == 'home':
-            home_display()
-            game_start_button()
-        if current_display == 'select_map':
-            select_map_display()
-        
-        if key_press() == 'enter': current_display = 'select_map'
+        key = key_press()
+        if key != None: print(key); log.write(key+'\n')     # player record
+        if key == 'DELETE': POWER_SWITCH = False            # emergency escape
 
-    POWER_SWITCH = False    # turn off power
+        disp(current_display)
+        print(current_display)
+        if current_display == './image/home.png':
+            if key == 'UP': current_display = './image/home_game_exit.png'
+            if key == 'DOWN': current_display = './image/home_game_start.png'
+            continue
+
+        if current_display == './image/home_game_start.png':
+            if key == 'UP': current_display = './image/home.png'
+            if key == 'DOWN': current_display = './image/home_game_exit.png'
+            if key == 'ENTER': current_display = './image/select_map.png'
+            continue
+        
+        if current_display == './image/home_game_exit.png':
+            if key == 'UP': current_display = './image/home_game_start.png'
+            if key == 'DOWN': current_display = './image/home.png'
+            if key == 'ENTER': current_display = './image/home_game_exit_option.png'
+            continue
+
+        if current_display == './image/home_game_exit_option.png':
+            if key == 'ENTER': POWER_SWITCH = False
+            if key == 'ESC' : current_display = './image/home_game_exit.png'
+            continue
+
+        if current_display == './image/select_map.png':
+            if key == 'ESC' : current_display = './image/home.png'
+            if key == 'UP' or key == 'DOWN' or key == 'LEFT' or key == 'RIGHT': current_display = './image/select_map_1.png'
+            continue
+
+        if current_display == './image/select_map_1.png':
+            if key == 'ESC' : current_display = './image/select_map.png'
+            if key == 'DOWN' : current_display = './image/select_map_3.png'
+            if key == 'RIGHT' : current_display = './image/select_map_2.png'
+            continue
+
+        if current_display == './image/select_map_2.png':
+            if key == 'ESC' : current_display = './image/select_map.png'
+            if key == 'DOWN' : current_display = './image/select_map_4.png'
+            if key == 'LEFT' : current_display = './image/select_map_1.png'
+            continue
+
+        if current_display == './image/select_map_3.png':
+            if key == 'ESC' : current_display = './image/select_map.png'
+            if key == 'UP' : current_display = './image/select_map_1.png'
+            if key == 'RIGHT' : current_display = './image/select_map_4.png'
+            continue
+
+        if current_display == './image/select_map_4.png':
+            if key == 'ESC' : current_display = './image/select_map.png'
+            if key == 'UP' : current_display = './image/select_map_2.png'
+            if key == 'LEFT' : current_display = './image/select_map_3.png'
+            continue
+
     pygame.quit()
+    log.close()
