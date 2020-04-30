@@ -4,7 +4,7 @@ from pygame.locals import QUIT
 from os import path
 #import block
 width = 600
-height = 800
+height = 900
 fps = 60
 
 WHITE = (255,255,255)
@@ -12,12 +12,25 @@ BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (0,0,255)
-TILESIZE = 50
+TILESIZE = 30
+
+pad_width = 600
+pad_height = 900
+
+x = pad_width *0.05
+y = pad_width *0.8
 
 #class Map(self):
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Superhero") #game title
+#background = pygame.image.load('./image/galaxy_map.png')
+#background = pygame.transform.scale(background,(width,height))
+char = pygame.image.load('./image/char.png')
+#background = pygame.transform.scale(background,(width,height))
+char.blit(char,(0,0))
+#screen.blit(background,(0,0))
+
 sprit_group = pygame.sprite.Group()
 
 class block(pygame.sprite.Sprite):
@@ -31,13 +44,13 @@ class block(pygame.sprite.Sprite):
         self.rect.y = self.grid_y 
 
 while True:
-    screen.fill(GREEN) # clear screen
-        # screen.fill(WHITE)
-        # draw_grid()
+    # screen.fill(GREEN) # clear screen
+    screen.fill(WHITE)
+    # draw_grid()
 
     map_data = []
-        #read map_file
-    map = "image/map1.txt"
+    #read map_file
+    map = "./image/galaxy_map.txt"
     with open(map, 'r') as file:
         for line in file:
             map_data.append(line.strip('\n').split(' '))
@@ -50,8 +63,10 @@ while True:
                 sprit_group.add(tut_big)
     sprit_group.draw(screen)
     pygame.display.flip()
+    
+    
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-
