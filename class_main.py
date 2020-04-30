@@ -1,7 +1,4 @@
-import pygame
-import sys
-import keyboard
-
+import pygame, sys, keyboard
 from pygame.locals import *
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 600,800
@@ -16,8 +13,8 @@ def program_icon():
 def set_caption():
     pygame.display.set_caption('Super Action HUFS')
 
-def main_display():
-    image1 = pygame.image.load('./image/display_main.jpg')
+def home_display():
+    image1 = pygame.image.load('./image/display_home.jpg')
     image1 = pygame.transform.scale(image1,(WINDOW_WIDTH,WINDOW_HEIGHT))
     screen.blit(image1,(0,0))
 
@@ -32,30 +29,31 @@ def game_start_button():
     start_button_rect = start_button.get_rect(x=150,y=550)
     screen.blit(start_button,start_button_rect)
 
-def key_event():
+def key_press():
     for event in pygame.event.get():
-        if event.type == K_UP:       # key up
-            pass
-        elif event.type == K_DOWN:     # key down
-            pass
-        elif event.type == K_LEFT:     # key left
-            pass
-        elif event.type == K_RIGHT:     # key right
-            pass
-
-
+            if event.type == KEYDOWN:
+                if event.key == K_a: print('a key pressed'); return 'a'
+                if event.key == K_RETURN: print('enter key pressed'); return 'enter'
+    
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),HWSURFACE)    # variable window is instance of surface, hardware accelerated
     program_icon() # set program icon
     set_caption() # set name of program
     POWER_SWITCH = True     # turn on power
-    
+    current_display = 'home'    # start in home display
+
     while POWER_SWITCH:
+
         pygame.display.flip()   # display initialization
-        main_display()
-        game_start_button()
-        key_event()
+
+        if current_display == 'home':
+            home_display()
+            game_start_button()
+        if current_display == 'select_map':
+            select_map_display()
+        
+        if key_press() == 'enter': current_display = 'select_map'
 
     POWER_SWITCH = False    # turn off power
     pygame.quit()
