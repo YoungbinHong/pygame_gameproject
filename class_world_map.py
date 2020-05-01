@@ -1,7 +1,10 @@
 import sys, keyboard
 import pygame
+import random
 from pygame.locals import QUIT
 from os import path
+from pygame import *
+#from pygame import K_RETURN, K_S, K_W, K_UP, K_DOWN
 width = 600
 height = 900
 fps = 60
@@ -13,23 +16,7 @@ GREEN = (0,255,0)
 BLUE = (0,0,255)
 ALPHA = (0,255,0)
 TILESIZE = 30
-
-#class Map(self):
-pygame.init()
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Superhero") #game title
-#background = pygame.image.load('./image/galaxy_map.png')
-#background = pygame.transform.scale(background,(width,height))
-#char = pygame.image.load('./image/char.png')
-#background = pygame.transform.scale(background,(width,height))
-#char.blit(char,char_pos)
-#screen.blit(background,(0,0))
-
 sprit_group = pygame.sprite.Group()
-keys = [False, False, False, False, False]
-
-char_pos = [0, 0]
-char = pygame.image.load('./image/char.png')
 
 class block(pygame.sprite.Sprite):
     def __init__(self, col, row):
@@ -40,34 +27,89 @@ class block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.grid_x
         self.rect.y = self.grid_y
-'''#####이걸로 했을때 KEYDOWN이 에러가 생겨버려서 이거 말고 다른것으로 했어요#####
-def key_press():
-    for event in pygame.event.get():
-        if event.type == KEYDOWN:
-            if event.key == K_UP: return 'UP'
-            if event.key == K_DOWN: return 'DOWN'
-            if event.key == K_LEFT: return 'LEFT'
-            if event.key == K_RIGHT: return 'RIGHT'
-            if event.key == K_1: return 'NUM1'
-            if event.key == K_2: return 'NUM2'
-            if event.key == K_3: return 'NUM3'
-            if event.key == K_4: return 'NUM4'
-            if event.key == K_RETURN: return 'ENTER'
-            if event.key == K_ESCAPE: return 'ESC'
-            if event.key == K_DELETE: return 'DELETE'
-'''
 
-while True:
-    screen.fill(WHITE)
-    # draw_grid()
+def drawobject(obj,x,y):
+    global screen
+    screen.blit(obj,(x,y))
 
-    map_data = []
-    #read map_file
-    map = "./image/galaxy_map.txt"
-    #key = key_press()
-    #if key != None: print(key); log.write(key+'\n')     # player record
-    #if key == 'DELETE': POWER_SWITCH = False            # emergency escape
+def airplane(x,y):
+    global screen, aircraft
+    aircraft = pygame.image.load('./image/plane.png')
+    #screen.blit(aircraft,(x,y))
+
+def runGame():
+    global screen, clock
+    global bat, fires
+    fires = []
+   
+    background = pygame.image.load('./image/city_orange.png')
+    background = pygame.transform.scale(background,(width,height))
+    #aircraft = pygame.image.load('./image/plane.png')
+    bat = pygame.image.load('./image/bat.png')
+    fires.append(pygame.image.load('./image/fireball.png'))
+    fires.append(pygame.image.load('./image/fireball2.png'))
+    screen.blit(background,(0,0))
     
+    x = width * 0.05
+    y = height* 0.08
+    y_change = 0
+    
+    for i in range(5):
+        fires.append(None)
+
+    bat_x = width
+    bat_y = random.randrange(0,height)
+
+    fire_x = width
+    fire_y = random.randrange(0,height)
+    random.shuffle(fires)
+    fire = fires[0]
+    
+    while True:
+        mk_block()
+        sprit_group.draw(screen)
+        
+        bat_x = 7
+        if bat_x <= 0:
+            bat_x = width
+            bat_y = random.randrange(0,height)
+        if fire == None:
+            fire_x -= 30
+        else:
+            fire_x -= 15
+        if fire_x <= 0:
+            fire_x = width
+            fire_y = random.randrange(0,height)
+            random.shuffle(fires)
+            fire= fires[0]
+        #drawobject(screen, screen, 0)
+        drawobject(bat, bat_x, bat_y)
+        if fire != None:
+            drawobject(fire, fire_x, fire_y)
+        for event in pygame.event.get():
+            #screen.fill(BLACK)
+            pygame.display.flip()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    y_change = -5
+                elif event.key == pygame.K_DOWN:
+                    y_change = 5
+            if event.type == pygame.KEYUP:
+                if event.key== pygame.K_UP or event.key == K_DOWN:
+                    y_change = 0
+
+        y+=y_change
+        airplane(x,y)           
+        
+        pygame.display.flip()
+        pygame.display.update() 
+     
+def mk_block():
+    map_data = []
+    map = "./image/galaxy_map.txt"
     with open(map, 'r') as file:
         for line in file:
             map_data.append(line.strip('\n').split(' '))
@@ -76,52 +118,20 @@ while True:
         for row in range(0, len(map_data[col])):
             #print('map_data[col][row]', map_data[col][row])
             if map_data[col][row] == "b":
-                tut_big = block(col, row)
-                sprit_group.add(tut_big)
-    
-    sprit_group.draw(screen)
-    char = pygame.image.load('./image/char.png')
-    screen.blit(char,char_pos)
-    pygame.display.flip()
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit(0)
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                keys[0] = True
-            elif event.key == pygame.K_a:
-                keys[1] = True
-            elif event.key == pygame.K_s:
-                keys[2] = True
-            elif event.key == pygame.K_d:
-                keys[3] = True
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
-                keys[0] = False
-            elif event.key == pygame.K_a:
-                keys[1] = False
-            elif event.key == pygame.K_s:
-                keys[2] = False
-            elif event.key == pygame.K_d:
-                keys[3] = False
-    
-    if keys[0]:
-        char_pos[1] = char_pos[1]-10
-        print(char_pos)
-    elif keys[2]:
-        char_pos[1] = char_pos[1]+10    
-        print(char_pos)
-    if keys[1]:
-        char_pos[0] = char_pos[0]-10
-        print(char_pos)
-    elif keys[3]:
-        char_pos[0] = char_pos[0]+10
-        print(char_pos) 
-    #####이부분 하면 더이상 캐릭터가 내려가지 않아야하는데 게임이 종료되어버려요#####
-    if char_pos[1] >=690:
-        char_pos = 690
- 
-    
-    
+                map_block = block(col, row)
+                sprit_group.add(map_block)
+
+def initGame():
+    global screen, clock
+    global bat, fires    
+
+    fires=[]
+
+    pygame.init()
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Superhero")
+    clock = pygame.time.Clock()
+    sprit_group = pygame.sprite.Group()
+    runGame()
+
+initGame()    
