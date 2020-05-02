@@ -51,7 +51,6 @@ if __name__ == '__main__':
     POWER_SWITCH = True     # turn on power
 
     current_display = './image/home.png'    # start in home display
-
     log = open('./log/play_log.txt','a')    # generate log file to review error
 
     while POWER_SWITCH:
@@ -61,6 +60,7 @@ if __name__ == '__main__':
         if key != None: print(key); log.write(key+'\n')     # player record
         if key == 'DELETE': POWER_SWITCH = False            # emergency escape
 
+        
         disp(current_display)
         print(current_display)
         if current_display == './image/home.png':
