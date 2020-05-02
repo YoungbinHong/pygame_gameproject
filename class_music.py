@@ -82,7 +82,8 @@ def initMixer():
 while sound_on == True:
     initMixer()
     background = './music/background.ogg'
-    playmusic(background)
+    pygame.mixer.music.load(background)
+    #playmusic(background)
 
 if move == True:
     initMixer()
