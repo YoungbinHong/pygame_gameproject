@@ -20,7 +20,7 @@ class Ghost():
         self.ghost_list = os.listdir(self.ghost_path)
         self.ghost_index = 0
         self.image = ''
-        self.median = (self.x+self.width * 2/3,func.WINDOW_HEIGHT)
+        self.median = (self.x+self.width * 1/2,func.WINDOW_HEIGHT)
 
     def draw_components(self,screen):
         self.ghost_list = os.listdir(self.ghost_path)

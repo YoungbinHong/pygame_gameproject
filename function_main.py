@@ -22,7 +22,7 @@ BLACK = (0,0,0)
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1200, 500
 
-CHARACTER_JUMP = 8
+CHARACTER_JUMP = 10
 
 MONSTER_MOVING_RANGE = 300
 
@@ -46,7 +46,7 @@ pygame.display.set_icon(program_icon)
 if __name__ == '__main__':
 
     ##### make instance #####
-    player1 = Player(20,240,340,300,2,'./image/player/stand_right','./image/player/stand_left','./image/player/move_right','./image/player/move_left','./image/player/dash_right','./image/player/dash_left','./image/player/dead_down','./image/player/dash_gauge')
+    player1 = Player(200,240,340,300,5,'./image/player/stand_right','./image/player/stand_left','./image/player/move_right','./image/player/move_left','./image/player/dash_right','./image/player/dash_left','./image/player/dead_down','./image/player/dash_gauge')
 
     monster1 = Monster(800,300,132,186,2,'./image/monster/move_right','./image/monster/move_left')
     monster2 = Monster(500,300,132,186,5,'./image/monster/move_right','./image/monster/move_left')
@@ -130,8 +130,8 @@ if __name__ == '__main__':
 
         player1.is_dead = False
         player1.health = 30
-        player1.x = 20
-        player1.y = 250
+        player1.x = 200
+        player1.y = 240
         player1.dash_gauge = 0
 
         monster1.is_dead = False
@@ -162,7 +162,7 @@ if __name__ == '__main__':
 
             if not player1.is_dead: # alive
                 # hit #
-                player1.is_dead = player1.hit(monster1) or player1.hit(monster2) or player1.hit(monster3)
+                player1.is_dead = player1.hit(monster1) or player1.hit(monster2) or player1.hit(monster3) or ghost1.median[0] < player1.hitbox[2] and ghost1.median[0] > player1.hitbox[0]
                 if monster1.hit(player1) and player1.status == 'DASH':
                     monster1.is_dead = True
                     monster1.median = (0,0)
