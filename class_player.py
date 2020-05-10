@@ -302,3 +302,4 @@ class Player(object):
         if self.dead_down_index < len(self.dead_down_list)-0.1:
             self.dead_down_index += 0.1
         
+      
