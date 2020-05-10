@@ -17,3 +17,4 @@ class Enter_Message():
             text_score = font.render(self.message, True, func.WHITE)
             func.screen.blit(text_score,(func.WINDOW_WIDTH-350,func.WINDOW_HEIGHT-60))
         if self.blink == 200: self.blink = 0
+            
