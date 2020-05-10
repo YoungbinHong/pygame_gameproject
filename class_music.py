@@ -19,3 +19,4 @@ class Music():
 
     def off(self):
         pygame.mixer.music.stop()
+        
