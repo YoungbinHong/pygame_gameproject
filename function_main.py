@@ -272,4 +272,5 @@ if __name__ == '__main__':
         while loading.index < 89:
             pygame.display.flip()
             loading.draw_components(screen)
+            
         
