@@ -20,3 +20,4 @@ class Loading():
         func.screen.blit(self.image,(0,0))
         self.index += 0.25
         if self.index >= 89: self.index = 89
+            
