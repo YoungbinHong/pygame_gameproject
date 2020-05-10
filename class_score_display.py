@@ -14,3 +14,4 @@ class Score_Display():
         font_30 = pygame.font.SysFont('FixedSys',30,True,False)
         text_score = font_30.render('Score : ' + str(floor(self.score/10)), True, func.BLACK)
         func.screen.blit(text_score,(15,15))
+        
