@@ -17,3 +17,4 @@ class Dead_Message():
     def draw_components(self,screen):
         self.image = pygame.transform.scale(self.image,(self.width,self.height))
         screen.blit(self.image,self.median)
+        
