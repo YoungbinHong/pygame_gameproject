@@ -34,3 +34,4 @@ class Ghost():
     def move(self):
         self.median = (self.x+self.width/2,self.y+self.height/2)
         self.x += self.vel
+        
