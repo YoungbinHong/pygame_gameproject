@@ -17,3 +17,4 @@ class Restart_Message():
             text_score = font.render(self.message, True, func.WHITE)
             func.screen.blit(text_score,(func.WINDOW_WIDTH/3-30,func.WINDOW_HEIGHT/2+100))
         if self.blink == 100: self.blink = 0
+            
