@@ -66,3 +66,4 @@ class Monster():
         screen.blit(self.image, (self.x, self.y))
         self.move_left_index += 0.1
         if self.move_left_index >= len(self.move_left_list) - 1: self.move_left_index = 0
+            
