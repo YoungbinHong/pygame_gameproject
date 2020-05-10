@@ -25,3 +25,4 @@ class Moving_Background():
         self.background = pygame.transform.scale(self.background,(func.WINDOW_WIDTH,func.WINDOW_HEIGHT))
         func.screen.blit(self.background,(self.background_x,0))
         func.screen.blit(self.background_copy,(self.background_copy_x,0))
+        
